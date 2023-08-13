@@ -1,0 +1,76 @@
+*****************************************************************************
+								   
+      R E L E A S E   N O T E S   F O R   O S D
+
+              E C S   P R O J E C T  2008
+
+*****************************************************************************
+------------------------------------------------------------------------------
+2008/09/4  OSD Version 1.5.2 (just for j10 use)
+------------------------------------------------------------------------------
+1.1.Fix When play PaoPao Kartin OSD will diaplay error message.
+------------------------------------------------------------------------------
+2008/09/03  OSD Version 1.5.1 (just for TG use)
+------------------------------------------------------------------------------
+1.Modify HSPA on/off to Edge on/off.
+------------------------------------------------------------------------------
+2008/08/6  OSD Version 1.5
+------------------------------------------------------------------------------
+1.Fix error message for coldboot&warmboot.(偵測系統即將關閉,提早通知OSD)
+------------------------------------------------------------------------------
+2008/08/1  OSD Version 1.41
+------------------------------------------------------------------------------
+1.Add test function for coldboot.
+2.Add test function for warmboot.
+------------------------------------------------------------------------------
+2008/07/07  OSD Version 1.4
+------------------------------------------------------------------------------
+1.OSD AP when install and uninstall add reset dialog function.
+2.Improve after resume from S4 issue.
+------------------------------------------------------------------------------
+2008/06/25  OSD Version 1.3
+------------------------------------------------------------------------------
+1.Add BT & BT/WLAN Icon.
+------------------------------------------------------------------------------
+2008/06/16  OSD Version 1.2
+------------------------------------------------------------------------------
+1.Modify OSD AP via the port 68/6C access.
+------------------------------------------------------------------------------
+2008/06/11  OSD Version 1.1
+------------------------------------------------------------------------------
+1.Improve OSD s3 black screen.
+------------------------------------------------------------------------------
+2008/05/30  OSD Version 1.0
+------------------------------------------------------------------------------
+1.Modify touchpad address to 0757h bit1.
+2.Modify OSD make note.
+3.Modify silentmode address to 0758h bit3.
+4.Modify s3,s4,coldboot,warmboot resume OSD can't work in first key.
+------------------------------------------------------------------------------
+2008/05/23  OSD Version 0.08
+------------------------------------------------------------------------------
+1.Touchpad statebar icon change to bright.
+2.Modify all statebar icon to circular icon.
+3.Modify statebar near to screen right up 3cm.
+4.Modify Statebar icon display rank.
+5.Add OSD to make note.
+6.Modify each icon in statebar distance.
+7.Modify OSD arrow icon.
+8.Add OSD can recollect state.
+9.Add OSD statebar have blue bottom.
+10.Modify OSD Uninstall AP can't remove issue.
+11.Modify OSD each icon picture.
+12.Fix OSD make note 10s. 
+13.Change new directport.sys <Improve S3 blue screen(9f) (Routecause)>.
+------------------------------------------------------------------------------
+2008/3/26   OSD Version 0.07
+------------------------------------------------------------------------------
+1.Fix center icon display 2/s. 
+2.Double click arrow  to change OSD state.
+3.modify T/P icon.
+ 
+
+ 
+
+
+

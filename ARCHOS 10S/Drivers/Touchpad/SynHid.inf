@@ -1,0 +1,153 @@
+;----------------------------------------------------------------------------
+; SynHID.inf
+;
+; Installs Synaptics USB filter driver.
+;----------------------------------------------------------------------------
+
+
+[Version]
+Signature="$Windows NT$"
+Class=HIDClass
+ClassGUID={745a17a0-74d3-11d0-b6fe-00a0c90f57da}
+Provider=%Provider%
+CatalogFile=SynTP.cat
+DriverVer=11/04/2004, 7.12.7.0
+
+;----------------------------------------------------------------------------
+; Manufacturer Sections
+;----------------------------------------------------------------------------
+
+
+[Manufacturer]
+%SynMfg% = SynMfg ; (Standard types)
+
+[SynMfg]
+%USB\Vid_06CB&Pid_0001.DeviceDesc%=USB_Inst, USB\Vid_06CB&Pid_0001
+%USB\Vid_06CB&Pid_0001.DeviceDesc%=USB_Inst, USB\Vid_06CB&Pid_0002
+%USB\Vid_06CB&Pid_0001.DeviceDesc%=USB_Inst, USB\Vid_06CB&Pid_0003
+%USB\Vid_06CB&Pid_0001.DeviceDesc%=USB_Inst, USB\Vid_06CB&Pid_0006
+%USB\Vid_06CB&Pid_0001.DeviceDesc%=USB_Inst, USB\Vid_06CB&Pid_0007
+%USB\Vid_06CB&Pid_0001.DeviceDesc%=USB_Inst, USB\Vid_06CB&Pid_0008
+%USB\Vid_06CB&Pid_0002.DeviceDesc%=USB_Inst, USB\Vid_06CB&Pid_0009&MI_00
+%USB\Vid_06CB&Pid_0002.DeviceDesc%=USB_Inst, USB\Vid_06CB&Pid_0009&MI_01
+;%SYNHID.DeviceDesc% = USB_Inst,GENERIC_HID_DEVICE,USB\Class_03&SubClass_01,USB\Class_03
+
+[ControlFlags]
+ExcludeFromSelect=*
+
+;----------------------------------------------------------------------------
+; Install Sections
+;----------------------------------------------------------------------------
+
+[SourceDisksNames]
+1=%DiskName%,,
+
+[SourceDisksFiles]
+SynTP.sys = 1
+
+[DestinationDirs]
+DefaultDestDir = 12 ; Drivers directory
+CopyFiles_Drivers = 12 ; Drivers directory
+
+; Service Installation Sections
+
+[SynTP_Service_Inst]
+DisplayName    = %SynTP.SvcDesc%
+ServiceType    = %SERVICE_KERNEL_DRIVER%
+StartType      = %SERVICE_DEMAND_START%
+ErrorControl   = %SERVICE_ERROR_NORMAL%
+ServiceBinary  = %12%\SynTP.sys
+LoadOrderGroup = extended base
+AddReg	       = Service_AddReg
+
+[Service_AddReg]
+
+;----------------------------------------------------------------------------
+; Common File Copy and Registry Operations for All TouchPads
+;----------------------------------------------------------------------------
+
+; Drivers directory
+[CopyFiles_Drivers]
+SynTP.sys
+
+;----------------------------------------------------------------------------
+; USB TouchPad
+;----------------------------------------------------------------------------
+
+[USB_Inst]
+include = Input.inf
+needs = HID_Inst.nt
+CopyFiles = CopyFiles_Drivers
+
+[USB_Inst.Services]
+AddService = HidUsb,%SPSVCINST_ASSOCSERVICE%,HID_Service_Inst
+AddService = SynTP,,SynTP_Service_Inst
+
+[USB_Inst.HW]
+AddReg = USB_AddReg.HW
+
+; Should not install on generic USB HID devices by default.
+; Labelling with an old date will then prefer the system generic driver.
+[USB_GenericInst]
+driverver = 00/00/0000
+include = Input.inf
+needs = HID_Inst.nt
+CopyFiles = CopyFiles_Drivers
+
+[USB_GenericInst.Services]
+AddService = HidUsb,%SPSVCINST_ASSOCSERVICE%,HID_Service_Inst
+AddService = SynTP,,SynTP_Service_Inst
+
+[USB_GenericInst.HW]
+AddReg = USB_AddReg.HW
+
+[USB_AddReg.HW]
+; Install filter driver below hidusb.
+HKR,,"LowerFilters",0x00010000,"SynTP"
+HKR,,SynPortType,0x00010001,3
+HKR,,SelectiveSuspendEnabled,0x00010001,0
+
+;----------------------------------------------------------------------------
+; User visible strings
+;----------------------------------------------------------------------------
+
+[Strings]
+Provider = "Synaptics"
+SynMfg = "Synaptics"
+DiskName = "Synaptics Driver Installation Disk"
+
+; Driver Information Entries
+DriverMfgr="Synaptics"
+DriverVersionID="7.12.7"
+DriverOEM="Synaptics"
+DriverFamily="Mouse"
+DriverProduct="WDM USB HID Device"
+DriverDescription="Synaptics WDM USB HID Device Driver"
+DriverOEMVersion="7.12.7"
+BaseDriverFileName="SynTP.sys"
+BaseDriverFileVersion="7.12.7"
+
+; Device Names
+
+USB\Vid_06CB&Pid_0001.DeviceDesc = "Synaptics USB HID Device"
+USB\Vid_06CB&Pid_0002.DeviceDesc = "Synaptics Composite USB HID Device"
+;SYNHID.DeviceDesc        = "Synaptics USB Human Interface Device"
+
+; Service Names
+
+SynTP.SvcDesc = "Synaptics Pointing Device Driver"
+
+; Substitutable parameters
+
+SPSVCINST_TAGTOFRONT  = 0x00000001
+SPSVCINST_ASSOCSERVICE= 0x00000002
+SERVICE_KERNEL_DRIVER = 1
+SERVICE_BOOT_START    = 0
+SERVICE_SYSTEM_START  = 1
+SERVICE_AUTO_START    = 2
+SERVICE_DEMAND_START  = 3
+SERVICE_ERROR_NORMAL  = 1
+SERVICE_ERROR_IGNORE  = 0
+REG_EXPAND_SZ         = 0x00020000
+REG_DWORD             = 0x00010001
+REG_SZ                = 0x00000000
